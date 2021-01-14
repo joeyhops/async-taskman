@@ -1,0 +1,31 @@
+{
+  "name": "async-taskman",
+  "version": "0.0.1",
+  "description": "An Asynchronous task manager",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha -r ts-node/register lib/**/*.spec.ts"
+  },
+  "keywords": [
+    "async",
+    "task",
+    "promise",
+    "catch",
+    "fail",
+    "rollback",
+    "transaction"
+  ],
+  "author": "JoeyHops",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.2.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.3",
+    "mocha": "^8.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
