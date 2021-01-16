@@ -31,7 +31,7 @@ export default class TaskManager implements ITaskManager {
   public execute(): Promise<void> {
     return this._execute().catch(err => {
       this._holdErr(err, this._PC);
-      console.log(this._PC, this._taskStack[this._PC]);
+      console.log(err);
     });
   }
 
@@ -57,7 +57,7 @@ export default class TaskManager implements ITaskManager {
             } else {
               const curTask: ITask = this._taskStack[this._errOn];
               const { onFail } = curTask;
-              await onFail(this._hasError, this._errOn);
+              await onFail(err, this._errOn);
             }
             break;
           }

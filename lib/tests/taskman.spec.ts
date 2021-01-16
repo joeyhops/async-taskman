@@ -90,9 +90,9 @@ describe('Async Task Man', () => {
     const demoTask: ITask = {
       runnable: testPromiseReject(),
       onFail: async (err, taskId): Promise<void> => {
-        expect(err).to.exist;
+        console.log(err);
+        //expect(err).to.exist;
         expect(taskId).to.equal(0);
-        done();
       }
     };
     let stackLen: number = taskMan.stackLength();
@@ -103,7 +103,46 @@ describe('Async Task Man', () => {
     expect(pushLen).to.equal(1);
 
     taskMan.execute().then(() => {
+      done();
+    });
+  });
 
+  it('Should catch error thrown in promise and unwind stack to the first tasks onFail function.', (done) => {
+    const taskMan: ITaskManager = new TaskManager(true);
+    expect(taskMan).to.exist;
+
+    const demoTask1: ITask = {
+      runnable: testPromise(),
+      onFail: async (err, taskId): Promise<void> => {
+        expect(taskId).to.equal(0);
+        done();
+      }
+    };
+
+    const demoTask2: ITask = {
+      runnable: testPromise(),
+      onFail: async (err, taskId): Promise<void> => {
+        expect(taskId).to.equal(1);
+      }
+    };
+
+    const demoTask3: ITask = {
+      runnable: testPromiseReject(),
+      onFail: async (err, taskId): Promise<void> => {
+        expect(taskId).to.equal(2);
+      }
+    };
+
+    const stackLen: number = taskMan.stackLength();
+    expect(stackLen).to.equal(0);
+
+    taskMan.push(demoTask1);
+    taskMan.push(demoTask2);
+    const finalPush: number = taskMan.push(demoTask3);
+    expect(finalPush).to.equal(3);
+
+    taskMan.execute().then(() => {
+      expect(taskMan._unwound).to.equal(true);
     });
   });
 });

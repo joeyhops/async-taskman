@@ -30,7 +30,7 @@ export default class TaskManager {
     execute() {
         return this._execute().catch(err => {
             this._holdErr(err, this._PC);
-            console.log(this._PC, this._taskStack[this._PC]);
+            console.log(err);
         });
     }
     _execute() {
@@ -59,7 +59,7 @@ export default class TaskManager {
                             else {
                                 const curTask = this._taskStack[this._errOn];
                                 const { onFail } = curTask;
-                                yield onFail(this._hasError, this._errOn);
+                                yield onFail(err, this._errOn);
                             }
                             break;
                         }

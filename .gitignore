@@ -13,6 +13,8 @@ solution
 temp
 *.sppkg
 
+dist
+
 # Coverage directory used by tools like istanbul
 coverage
 
